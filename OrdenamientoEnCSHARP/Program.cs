@@ -16,7 +16,7 @@ namespace OrdenamientoEnCSHARP
             Ordenamiento ordenamiento = new Ordenamiento();
             int[] arrDes = { 4, 3, 2, 1 };
             arrDes.Mostrar();
-            ordenamiento.MargeSort(arrDes);
+            ordenamiento.QuickSortInline(arrDes);
             arrDes.Mostrar();
         }
     }

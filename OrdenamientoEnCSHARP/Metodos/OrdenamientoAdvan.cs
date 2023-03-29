@@ -10,7 +10,147 @@ namespace OrdenamientoEnCSHARP.Metodos
 {
     public partial class Ordenamiento
     {
+        #region Quicksort
 
+        private int DivideMitad<T>(T[] arr, int ini, int fin) where T : IComparable
+        {
+            int medio = (ini + fin) / 2;
+            T pivot = arr[medio];
+            int i = ini;
+            int j = fin;
+
+            while (i < j)
+            {
+                
+                
+                    
+                while (arr[i].CompareTo(pivot) < 0)i++;
+                while (arr[j].CompareTo(pivot) > 0) j--;
+
+                if (i < j)
+                {
+                    IntercambioUtil.Intercambiar(ref arr[i], ref arr[j]);
+                    i++;
+                    j--;
+                }
+
+            }
+            return j;
+        }
+        private int DivideInicio<T>(T[] arr, int ini, int fin) where T : IComparable
+        {
+
+            T pivot = arr[ini];
+            int i = ini;
+            int j = fin;
+
+
+            while (i < j)
+            {
+                while (i < fin && arr[i].CompareTo(pivot) <= 0) i++;
+                while (arr[j].CompareTo(pivot) > 0) j--;
+
+
+                if (i < j)
+                {
+                    IntercambioUtil.Intercambiar(ref arr[i], ref arr[j]);
+                    //i++;
+                    //j--;
+                }
+            }
+
+            IntercambioUtil.Intercambiar(ref arr[j], ref arr[ini]);
+
+            return j;
+
+
+        }
+        private int DivideFin<T>(T[] arr, int ini, int fin) where T : IComparable
+        {
+            T pivot = arr[fin];
+            int i = ini;
+            int j = fin;
+
+
+            while (i < j)
+            {
+                while (arr[i].CompareTo(pivot) < 0) i++;
+                while (j >= 0 && arr[j].CompareTo(pivot) >= 0) j--;
+
+
+                if (i < j)
+                {
+                    IntercambioUtil.Intercambiar(ref arr[i], ref arr[j]);
+                    i++;
+                    j--;
+                }
+            }
+
+            IntercambioUtil.Intercambiar(ref arr[i], ref arr[fin]);
+
+            return i;
+        }
+        private void QuickSort<T>(T[] arr, int ini, int fin) where T : IComparable
+        {
+            if (ini > fin) return;
+
+            int mitad = DivideMitad<T>(arr, ini, fin);
+
+            QuickSort(arr, ini, mitad - 1);
+            QuickSort(arr, mitad + 1, fin);
+
+
+        }
+        private void QuickSortInline<T>(T[] arr,int ini,int fin) where T : IComparable
+        {
+            if (ini > fin)
+            {
+                return;
+            }
+            int i, j, mid;
+
+            mid = (ini + fin) / 2;
+            i = ini;
+            j = fin;
+            T pivot = arr[mid];
+
+            while (i <= j)
+            {
+                while (arr[i].CompareTo(pivot) < 0) i++;
+                while (arr[j].CompareTo(pivot) > 0) j--;
+
+                if (i <= j)
+                {
+                    IntercambioUtil.Intercambiar(ref arr[i], ref arr[j]);
+                    i++;
+                    j--;
+                }
+            }
+
+            if (i < fin)
+            {
+                QuickSortInline(arr, i, fin);
+            }
+
+            if (j > ini)
+            {
+                QuickSortInline(arr, ini, j);
+            }
+
+        }
+
+        public void QuickSortInline<T>(T[] arr) where T : IComparable
+        {
+            QuickSortInline<T>(arr,0,arr.Length-1);
+        }
+        public void QuickSort<T>(T[] arr) where T : IComparable
+        {
+            QuickSort<T>(arr, 0, arr.Length - 1);
+
+        }
+
+
+        #endregion
 
         #region MargeSort
         private void MargeTemp<T>(T[] arr, int inicio, int mitad, int final) where T : IComparable
@@ -24,7 +164,8 @@ namespace OrdenamientoEnCSHARP.Metodos
             i = inicio;
             j = mitad + 1;
 
-            while (i <= mitad && j <= final){
+            while (i <= mitad && j <= final)
+            {
 
                 if (arr[i].CompareTo(arr[j]) < 0)
                 {
@@ -57,7 +198,7 @@ namespace OrdenamientoEnCSHARP.Metodos
                 arr[inicio + k] = temp[k];
             }
         }
-        private void MargeAux<T>(T[] arr, int inicio,int mitad, int final) where T : IComparable
+        private void MargeAux<T>(T[] arr, int inicio, int mitad, int final) where T : IComparable
         {
             T[] auxIzq = new T[mitad - inicio + 1];
             T[] auxDer = new T[final - mitad];
@@ -71,21 +212,21 @@ namespace OrdenamientoEnCSHARP.Metodos
             //}
 
             /*Otra forma de hacerlo*/
-            for (i = inicio; i <=mitad ;i++)
+            for (i = inicio; i <= mitad; i++)
             {
-                auxIzq[i-inicio] = arr[i];
+                auxIzq[i - inicio] = arr[i];
             }
-            for(j = 0; j < auxDer.Length; j++)
+            for (j = 0; j < auxDer.Length; j++)
             {
-                
-                auxDer[j] = arr[mitad + j+1];
+
+                auxDer[j] = arr[mitad + j + 1];
             }
 
             i = j = 0;
 
-            while(i< auxIzq.Length && j < auxDer.Length)
+            while (i < auxIzq.Length && j < auxDer.Length)
             {
-                if (auxIzq[i].CompareTo(auxDer[j])<0)
+                if (auxIzq[i].CompareTo(auxDer[j]) < 0)
                 {
                     arr[k] = auxIzq[i];
                     i++;
@@ -104,14 +245,14 @@ namespace OrdenamientoEnCSHARP.Metodos
                 k++;
                 i++;
             }
-            while(j < auxDer.Length)
+            while (j < auxDer.Length)
             {
                 arr[k] = auxDer[j];
                 k++;
                 j++;
             }
         }
-        private void MargeSort<T>(T[] arr,int inicio,int final) where T : IComparable
+        private void MargeSort<T>(T[] arr, int inicio, int final) where T : IComparable
         {
             if (inicio >= final) return;
 
@@ -126,7 +267,7 @@ namespace OrdenamientoEnCSHARP.Metodos
         }
         public void MargeSort<T>(T[] arr) where T : IComparable
         {
-            MargeSort<T>(arr, 0, arr.Length-1);
+            MargeSort<T>(arr, 0, arr.Length - 1);
         }
 
         #endregion
