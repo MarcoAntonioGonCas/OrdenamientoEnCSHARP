@@ -51,6 +51,31 @@ namespace OrdenamientoEnCSHARP.Metodos
                 }
             }
         }
+        public void InsertionSortEvil<T>(T[] arr) where T : IComparable
+        {
+            if (arr == null)
+            {
+                throw new ArgumentNullException(nameof(arr));
+            }
+
+            int posA;
+            T dato;
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                posA = i;
+                dato = arr[posA];
+                while (posA > 0 &&
+                       arr[posA - 1].CompareTo(dato) > 0)
+                {
+
+                    arr[posA] = arr[posA - 1];
+                    posA--;
+                }
+
+                arr[posA] = dato;
+            }
+        }
         public void SelectionSort<T>(T[] arr) where T : IComparable
         {
             if (arr == null)

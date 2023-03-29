@@ -92,7 +92,7 @@ namespace OrdenamientoEnCSHARP.Metodos
         }
         private void QuickSort<T>(T[] arr, int ini, int fin) where T : IComparable
         {
-            if (ini > fin) return;
+            if (ini >= fin) return;
 
             int mitad = DivideMitad<T>(arr, ini, fin);
 
@@ -101,9 +101,15 @@ namespace OrdenamientoEnCSHARP.Metodos
 
 
         }
+        public void QuickSort<T>(T[] arr) where T : IComparable
+        {
+            QuickSort<T>(arr, 0, arr.Length - 1);
+
+        }
+
         private void QuickSortInline<T>(T[] arr,int ini,int fin) where T : IComparable
         {
-            if (ini > fin)
+            if (ini >= fin)
             {
                 return;
             }
@@ -143,14 +149,9 @@ namespace OrdenamientoEnCSHARP.Metodos
         {
             QuickSortInline<T>(arr,0,arr.Length-1);
         }
-        public void QuickSort<T>(T[] arr) where T : IComparable
-        {
-            QuickSort<T>(arr, 0, arr.Length - 1);
-
-        }
-
 
         #endregion
+
 
         #region MargeSort
         private void MargeTemp<T>(T[] arr, int inicio, int mitad, int final) where T : IComparable
